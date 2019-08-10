@@ -448,13 +448,12 @@
 
   minetest.register_abm({ --spawn abm. This should be changed to a more realistic type of spawning
     nodenames = {'group:leaves'},
-    neighbors = {''},
     interval = 1600,
     chance = 20,
-    action = function(pos, node, _, _)
+    action = function(pos, node)
       local p = {x=pos.x, y=pos.y-1, z=pos.z}
-      if minetest.get_node(p).walkable == false then return end
-      if (minetest.find_node_near(p, 5, 'group:flora') ~= nil and minetest.find_node_near(p, 40, 'bees:hive_wild') == nil) then
+      if minetest.get_node(pos).walkable == false then return end
+      if (minetest.find_node_near(p, 5, 'group:flower') ~= nil and minetest.find_node_near(p, 40, 'bees:hive_wild') == nil) then
         minetest.add_node(p, {name='bees:hive_wild'})
       end
     end,
@@ -462,7 +461,7 @@
 
   minetest.register_abm({ --spawning bees around bee hive
     nodenames = {'bees:hive_wild', 'bees:hive_artificial', 'bees:hive_industrial'},
-    neighbors = {'group:flowers', 'group:leaves'},
+    neighbors = {'group:flower', 'group:leaves'},
     interval = 30,
     chance = 4,
     action = function(pos, node, _, _)
